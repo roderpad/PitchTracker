@@ -1,11 +1,25 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
+import {NavigationProp} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SettingsScreen: React.FC = () => {
+type Props = {
+  navigation: NavigationProp<any>;
+};
+
+const SettingsScreen: React.FC<Props> = ({navigation}) => {
   return (
     <View>
       <Text>Settings</Text>
-      {/* TODO: Add profile setup form */}
+      <Button
+        title="Back to Home"
+        onPress={() => navigation.navigate('Home')}
+      />
+      <Button
+        title="Profile Settings"
+        onPress={() => navigation.navigate('SetupProfileScreen')}
+      />
+      <Button title="Reset for Testing" onPress={() => AsyncStorage.clear()} />
     </View>
   );
 };
