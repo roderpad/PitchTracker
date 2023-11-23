@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface Props {

@@ -12,17 +12,17 @@ const AppNavigation: React.FC = () => {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{title: 'Home Screen'}}
+        options={{title: 'Home'}}
       />
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{title: 'Settings Screen'}}
+        options={{title: 'Settings'}}
       />
       <Stack.Screen
         name="SetupProfileScreen"
         component={SetupProfileScreen}
-        options={{title: 'Settings Screen'}}
+        options={{title: 'Profile Settings'}}
       />
     </Stack.Navigator>
   );

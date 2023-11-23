@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View} from 'react-native';
+import {Text, Button} from 'react-native-elements';
 import {NavigationProp} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
