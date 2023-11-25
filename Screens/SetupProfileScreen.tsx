@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
-import {Button, Input, Text} from 'react-native-elements';
+import {Button, Input, Text} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ParamListBase} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';

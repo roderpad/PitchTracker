@@ -1,12 +1,10 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {ThemeProvider} from 'react-native-elements';
+import {ThemeProvider} from '@rneui/themed';
 import AppNavigation from './Navigation/AppNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InitialSetupProfileScreen from './Screens/InitialSetupProfileScreen';
 import MainTheme from './Themes/MainTheme';
-
-const ThemeProviderAny = ThemeProvider as any;
 
 const App: React.FC = () => {
   const [hasProfile, setHasProfile] = useState<boolean | null>(null);
@@ -21,7 +19,7 @@ const App: React.FC = () => {
   }, [checkProfile]);
 
   return (
-    <ThemeProviderAny theme={MainTheme}>
+    <ThemeProvider theme={MainTheme}>
       <NavigationContainer>
         {hasProfile ? (
           <AppNavigation />
@@ -29,7 +27,7 @@ const App: React.FC = () => {
           <InitialSetupProfileScreen onProfileComplete={checkProfile} />
         )}
       </NavigationContainer>
-    </ThemeProviderAny>
+    </ThemeProvider>
   );
 };
 
