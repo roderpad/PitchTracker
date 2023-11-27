@@ -11,7 +11,6 @@ const MainTheme = createTheme({
     secondary: '#3498db', // Blue
     background: '#34495e', // Dark blue-gray
   },
-  mode: 'dark',
   components: {
     Button: {
       raised: true,

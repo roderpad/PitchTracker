@@ -4,6 +4,7 @@ import {Button, Input, Text} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ParamListBase} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 // Define the type for your navigation prop based on your navigation configuration
 type Props = Partial<StackScreenProps<ParamListBase>> & {
@@ -18,10 +19,10 @@ const SetupProfileScreen: React.FC<Props> = ({
   const [handedness, setHandedness] = useState('');
   const [pitches, setPitches] = useState(new Set());
   const pitchOptions = [
-    '4-seam FB',
-    '2-seam FB',
-    'sinker',
-    'cutter',
+    '4-Seam FB',
+    '2-Seam FB',
+    'Sinker',
+    'Cutter',
     'CB',
     'Slider',
     'Slurve',
@@ -71,49 +72,53 @@ const SetupProfileScreen: React.FC<Props> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Input
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-        style={styles.input}
-      />
-      <View style={styles.radioGroup}>
-        {['Left', 'Right', 'Ambidextrous'].map(hand => (
-          <TouchableOpacity
-            key={hand}
-            style={styles.radioOption}
-            onPress={() => setHandedness(hand)}>
-            <Text
-              style={handedness === hand ? styles.selected : styles.radioText}>
-              {hand}
-            </Text>
-          </TouchableOpacity>
-        ))}
+    <ScreenWrapper>
+      <View style={styles.container}>
+        <Input
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+        />
+        <View style={styles.radioGroup}>
+          {['Left', 'Right', 'Ambidextrous'].map(hand => (
+            <TouchableOpacity
+              key={hand}
+              style={styles.radioOption}
+              onPress={() => setHandedness(hand)}>
+              <Text
+                style={
+                  handedness === hand ? styles.selected : styles.radioText
+                }>
+                {hand}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <View style={styles.pitchGroup}>
+          {pitchOptions.map(pitch => (
+            <TouchableOpacity
+              key={pitch}
+              style={styles.pitchOption}
+              onPress={() => togglePitchSelection(pitch)}>
+              <Text
+                style={
+                  pitches.has(pitch) ? styles.selectedPitch : styles.pitchText
+                }>
+                {pitch}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <Button title="Save Profile" onPress={handleSaveProfile} />
+        <Button
+          title="Go Back"
+          onPress={() => {
+            navigation?.goBack();
+          }}
+        />
       </View>
-      <View style={styles.pitchGroup}>
-        {pitchOptions.map(pitch => (
-          <TouchableOpacity
-            key={pitch}
-            style={styles.pitchOption}
-            onPress={() => togglePitchSelection(pitch)}>
-            <Text
-              style={
-                pitches.has(pitch) ? styles.selectedPitch : styles.pitchText
-              }>
-              {pitch}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <Button title="Save Profile" onPress={handleSaveProfile} />
-      <Button
-        title="Go Back"
-        onPress={() => {
-          navigation?.goBack();
-        }}
-      />
-    </View>
+    </ScreenWrapper>
   );
 };
 
