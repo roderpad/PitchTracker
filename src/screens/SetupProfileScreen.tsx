@@ -8,16 +8,20 @@ import ScreenWrapper from '../components/ScreenWrapper';
 
 // Define the type for your navigation prop based on your navigation configuration
 type Props = Partial<StackScreenProps<ParamListBase>> & {
-  onProfileComplete?: () => void;
+  onProfileComplete?: () => void; // Optional callback function that is called when the profile setup is complete
 };
 
+// SetupProfileScreen component
 const SetupProfileScreen: React.FC<Props> = ({
-  navigation,
-  onProfileComplete,
+  onProfileComplete, // Callback function for when the profile setup is complete
 }) => {
+  // State for the name input
   const [name, setName] = useState('');
+  // State for the handedness input
   const [handedness, setHandedness] = useState('');
+  // State for the pitches input (a Set of selected pitches)
   const [pitches, setPitches] = useState(new Set());
+  // Array of possible pitches
   const pitchOptions = [
     '4-Seam FB',
     '2-Seam FB',
@@ -31,10 +35,13 @@ const SetupProfileScreen: React.FC<Props> = ({
     'Knuckle Ball',
   ];
 
+  // Effect hook for loading the profile data from AsyncStorage when the component mounts
   useEffect(() => {
     const loadProfileData = async () => {
+      // Get the profile data from AsyncStorage
       const profileString = await AsyncStorage.getItem('profile');
       if (profileString) {
+        // Parse the profile data and update the state
         const profileData = JSON.parse(profileString);
         setName(profileData.name);
         setHandedness(profileData.handedness);
@@ -42,127 +49,87 @@ const SetupProfileScreen: React.FC<Props> = ({
       }
     };
 
+    // Call the function to load the profile data
     loadProfileData();
   }, []);
 
+  // Function for saving the profile data
   const handleSaveProfile = async () => {
+    // Validate the input fields
     if (!name || !handedness || pitches.size === 0) {
+      // Show an alert if any of the fields are empty
       Alert.alert('Profile Incomplete', 'Please fill in all required fields.');
       return;
     }
 
-    const profileData = {name, handedness, pitches: Array.from(pitches)};
+    // Create the profile data object
+    const profileData = {
+      name,
+      handedness,
+      pitches: Array.from(pitches),
+    };
+
+    // Save the profile data in AsyncStorage
     await AsyncStorage.setItem('profile', JSON.stringify(profileData));
-    if (navigation) {
-      navigation.navigate('Home'); // Make sure 'Home' matches your home screen route name
-    }
+
+    // Call the onProfileComplete callback function if it was provided
     if (onProfileComplete) {
       onProfileComplete();
     }
   };
 
-  const togglePitchSelection = (pitch: string) => {
-    const updatedPitches = new Set(pitches);
-    if (updatedPitches.has(pitch)) {
-      updatedPitches.delete(pitch);
-    } else {
-      updatedPitches.add(pitch);
-    }
-    setPitches(updatedPitches);
-  };
-
+  // Render the setup profile screen
   return (
     <ScreenWrapper>
       <View style={styles.container}>
+        {/* Input for the name */}
+        <Input label="Name" value={name} onChangeText={setName} />
+        {/* Input for the handedness */}
         <Input
-          placeholder="Name"
-          value={name}
-          onChangeText={setName}
-          style={styles.input}
+          label="Handedness"
+          value={handedness}
+          onChangeText={setHandedness}
         />
-        <View style={styles.radioGroup}>
-          {['Left', 'Right', 'Ambidextrous'].map(hand => (
-            <TouchableOpacity
-              key={hand}
-              style={styles.radioOption}
-              onPress={() => setHandedness(hand)}>
-              <Text
-                style={
-                  handedness === hand ? styles.selected : styles.radioText
-                }>
-                {hand}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <View style={styles.pitchGroup}>
-          {pitchOptions.map(pitch => (
-            <TouchableOpacity
-              key={pitch}
-              style={styles.pitchOption}
-              onPress={() => togglePitchSelection(pitch)}>
-              <Text
-                style={
-                  pitches.has(pitch) ? styles.selectedPitch : styles.pitchText
-                }>
-                {pitch}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        {/* List of pitch options */}
+        {pitchOptions.map(pitch => (
+          <TouchableOpacity
+            key={pitch}
+            style={styles.pitchOption}
+            onPress={() => {
+              // Toggle the selection of the pitch
+              if (pitches.has(pitch)) {
+                pitches.delete(pitch);
+              } else {
+                pitches.add(pitch);
+              }
+              // Update the pitches state
+              setPitches(new Set(pitches));
+            }}>
+            <Text>{pitch}</Text>
+            {/* Show a checkmark next to the selected pitches */}
+            {pitches.has(pitch) && <Text>✓</Text>}
+          </TouchableOpacity>
+        ))}
+        {/* Save button */}
         <Button title="Save Profile" onPress={handleSaveProfile} />
-        <Button
-          title="Go Back"
-          onPress={() => {
-            navigation?.goBack();
-          }}
-        />
       </View>
     </ScreenWrapper>
   );
 };
 
+// Styles for the SetupProfileScreen component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    margin: 10,
-    width: '80%',
-  },
-  radioGroup: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    margin: 10,
-  },
-  radioOption: {
-    marginHorizontal: 10,
-  },
-  radioText: {
-    // style for unselected radio options
-  },
-  selected: {
-    fontWeight: 'bold',
-  },
-  pitchGroup: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    margin: 10,
+    padding: 20,
   },
   pitchOption: {
-    margin: 5,
-  },
-  pitchText: {
-    // style for unselected pitch options
-  },
-  selectedPitch: {
-    fontWeight: 'bold',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginVertical: 5,
   },
 });
 

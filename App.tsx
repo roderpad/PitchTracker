@@ -4,23 +4,32 @@ import {ThemeProvider} from '@rneui/themed';
 import AppNavigation from './src/navigation/AppNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InitialSetupProfileScreen from './src/screens/InitialSetupProfileScreen';
-import useThemeMode from './src/hooks/useThemeMode'; // Import the hook
+import useThemeMode from './src/hooks/useThemeMode'; // Custom hook for managing theme mode
 import ScreenWrapper from './src/components/ScreenWrapper';
 
+// Main App component
 const App: React.FC = () => {
+  // State to track if user profile exists
   const [hasProfile, setHasProfile] = useState<boolean | null>(null);
-  const {theme} = useThemeMode(); // Use the hook to get the theme
 
+  // Use custom hook to get the current theme
+  const {theme} = useThemeMode();
+
+  /**
+   * Checks if a profile exists in AsyncStorage and updates the state accordingly.
+   * This function is wrapped in useCallback to prevent unnecessary re-renders.
+   */
   const checkProfile = useCallback(async () => {
     const profile = await AsyncStorage.getItem('profile');
     setHasProfile(!!profile);
   }, []);
 
+  // Use useEffect to call checkProfile when the component mounts
   useEffect(() => {
     checkProfile();
   }, [checkProfile]);
 
-  // Make sure to pass the theme from useThemeMode to the ThemeProvider
+  // Render the app with the current theme. If a profile exists, render the main navigation. Otherwise, render the profile setup screen.
   return (
     <ThemeProvider theme={theme}>
       <ScreenWrapper>
