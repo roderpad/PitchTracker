@@ -9,7 +9,7 @@ import ScreenWrapper from './src/components/ScreenWrapper';
 
 const App: React.FC = () => {
   const [hasProfile, setHasProfile] = useState<boolean | null>(null);
-  const {theme, toggleTheme} = useThemeMode(); // Use the hook to get the theme
+  const {theme} = useThemeMode(); // Use the hook to get the theme
 
   const checkProfile = useCallback(async () => {
     const profile = await AsyncStorage.getItem('profile');

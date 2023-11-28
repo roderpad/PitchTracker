@@ -1,12 +1,11 @@
-// useThemeMode.tsx
 import {useState, useEffect} from 'react';
 import {Appearance} from 'react-native';
 import MainTheme, {lightColors, darkColors} from '../themes/MainTheme';
 
 const useThemeMode = () => {
   // Get the default color scheme from the device settings
-  const colorScheme = Appearance.getColorScheme();
-  const [isDarkMode, setIsDarkMode] = useState(colorScheme === 'dark');
+  const deviceColorScheme = Appearance.getColorScheme(); // Renamed variable
+  const [isDarkMode, setIsDarkMode] = useState(deviceColorScheme === 'dark');
 
   useEffect(() => {
     // Update the theme mode based on system changes
@@ -17,8 +16,8 @@ const useThemeMode = () => {
   }, []);
 
   const theme = isDarkMode
-    ? {...MainTheme, colors: darkColors, mode: 'dark'}
-    : {...MainTheme, colors: lightColors, mode: 'light'};
+    ? {...MainTheme, colors: darkColors}
+    : {...MainTheme, colors: lightColors};
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
