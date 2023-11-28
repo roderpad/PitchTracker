@@ -1,29 +1,44 @@
 import {useState, useEffect} from 'react';
 import {Appearance} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainTheme, {lightColors, darkColors} from '../themes/MainTheme';
 
 const useThemeMode = () => {
-  // Get the default color scheme from the device settings
-  const deviceColorScheme = Appearance.getColorScheme(); // Renamed variable
+  const deviceColorScheme = Appearance.getColorScheme();
   const [isDarkMode, setIsDarkMode] = useState(deviceColorScheme === 'dark');
 
   useEffect(() => {
-    // Update the theme mode based on system changes
     const subscription = Appearance.addChangeListener(({colorScheme}) => {
       setIsDarkMode(colorScheme === 'dark');
     });
+
+    AsyncStorage.getItem('themeMode').then(savedMode => {
+      if (savedMode !== null) {
+        console.log('Retrieved theme mode from AsyncStorage:', savedMode);
+        setIsDarkMode(savedMode === 'dark');
+      }
+    });
+
     return () => subscription.remove();
   }, []);
 
-  const theme = isDarkMode
-    ? {...MainTheme, colors: darkColors}
-    : {...MainTheme, colors: lightColors};
-
   const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
+    setIsDarkMode(prevMode => {
+      const newMode = !prevMode;
+      AsyncStorage.setItem('themeMode', newMode ? 'dark' : 'light');
+      return newMode;
+    });
+    console.log('In useThemeMode, theme mode:', theme.mode);
   };
 
-  return {theme, toggleTheme};
+  const theme = isDarkMode
+    ? {...MainTheme, mode: 'dark', colors: darkColors}
+    : {...MainTheme, mode: 'light', colors: lightColors};
+
+  console.log('Current theme mode:', isDarkMode ? 'Dark' : 'Light');
+  console.log('Theme object:', theme);
+
+  return {theme, isDarkMode, toggleTheme};
 };
 
 export default useThemeMode;

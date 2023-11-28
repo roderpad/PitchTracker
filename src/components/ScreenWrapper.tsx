@@ -7,6 +7,7 @@ type ScreenWrapperProps = ViewProps;
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({children, style}) => {
   const {theme} = useTheme();
+  console.log('ScreenWrapper theme mode:', theme.mode); // This should log 'light' or 'dark'
 
   // Merge the passed style with the container style
   return (

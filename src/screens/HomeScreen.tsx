@@ -10,6 +10,8 @@ interface Props {
 
 const HomeScreen: React.FC<Props> = ({navigation}) => {
   const {theme} = useTheme(); // Hook to get the theme
+  console.log('HomeScreen theme:', theme);
+  console.log('HomeScreen re-rendered with theme:', theme.mode);
   return (
     <ScreenWrapper>
       <View style={styles.container}>

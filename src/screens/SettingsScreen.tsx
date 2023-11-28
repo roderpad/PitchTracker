@@ -11,8 +11,8 @@ type Props = {
 };
 
 const SettingsScreen: React.FC<Props> = ({navigation}) => {
-  const {theme, toggleTheme} = useThemeMode();
-  const isDarkMode = theme.mode === 'dark';
+  const {isDarkMode, toggleTheme} = useThemeMode();
+  console.log('SettingsScreen - isDarkMode:', isDarkMode);
 
   return (
     <ScreenWrapper>
