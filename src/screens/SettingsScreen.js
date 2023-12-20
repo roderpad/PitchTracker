@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React from 'react';
 import {View, Text, Button, Switch} from 'react-native';
+import {useTheme} from '../context/ThemeContext';
 
 const SettingsScreen = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const {isDarkMode, toggleTheme} = useTheme();
 
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -20,10 +21,7 @@ const SettingsScreen = () => {
           /* Logic for reset */
         }}
       />
-      <Switch
-        onValueChange={() => setIsDarkMode(previousState => !previousState)}
-        value={isDarkMode}
-      />
+      <Switch onValueChange={toggleTheme} value={isDarkMode} />
     </View>
   );
 };
