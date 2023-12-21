@@ -1,23 +1,39 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View} from 'react-native';
+import {Button} from 'react-native-elements';
+import {useTheme} from '../context/ThemeContext';
+import Section from '../components/Section';
 
 const HomeScreen = ({navigation}) => {
+  const {theme} = useTheme();
+
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Start New Session"
-        onPress={() => {
-          /* Logic for new session */
-        }}
-      />
-      <Button
-        title="View Past Sessions"
-        onPress={() => {
-          /* Logic for past sessions */
-        }}
-      />
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'top',
+        alignItems: 'center',
+        backgroundColor: theme.background,
+      }}>
+      <Section title="Pitch Tracker">
+        <Button
+          title="Start New Session"
+          buttonStyle={{backgroundColor: theme.primary, marginBottom: 20}}
+          titleStyle={{color: theme.text}}
+          onPress={() => {
+            /* Logic for new session */
+          }}
+        />
+        <Button
+          title="View Past Sessions"
+          buttonStyle={{backgroundColor: theme.primary, marginBottom: 20}}
+          titleStyle={{color: theme.text}}
+          onPress={() => {
+            /* Logic for past sessions */
+          }}
+        />
+      </Section>
       <Button
         title="Settings"
         onPress={() => navigation.navigate('Settings')}
