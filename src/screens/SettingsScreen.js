@@ -4,6 +4,7 @@ import {View, Switch, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useTheme} from '../context/ThemeContext';
 import Section from '../components/Section';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SettingsScreen = () => {
   const {theme, isDarkMode, toggleTheme} = useTheme();
@@ -13,11 +14,23 @@ const SettingsScreen = () => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.switchContainer}>
+        <MaterialIcons
+          name="light-mode"
+          size={24}
+          color={isDarkMode ? '#767577' : '#f5dd4b'} // Light mode icon color
+          style={styles.iconStyle}
+        />
         <Switch
           onValueChange={toggleTheme}
           value={isDarkMode}
           trackColor={{false: '#767577', true: '#767577'}}
           thumbColor={isDarkMode ? '#6200ee' : '#f5dd4b'}
+        />
+        <MaterialIcons
+          name="dark-mode"
+          size={24}
+          color={isDarkMode ? '#6200ee' : '#767577'} // Dark mode icon color
+          style={styles.iconStyle}
         />
       </View>
       <View style={styles.contentContainer}>
@@ -60,6 +73,12 @@ const getStyles = theme =>
       top: 10,
       right: 10,
       zIndex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    iconStyle: {
+      marginLeft: 1, // Adjust space between switch and icon as needed
+      marginRight: 1, // Adjust space between switch and icon as needed
     },
     contentContainer: {
       paddingTop: 40,
