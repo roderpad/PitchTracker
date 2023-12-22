@@ -127,7 +127,8 @@ const ProfileSetupScreen = () => {
         </Text>
       </View>
       <ScrollView style={styles.container}>
-        <Card containerStyle={styles.card}>
+        <Card containerStyle={styles.inputCard}>
+          <Text style={styles.sectionTitle}>Username</Text>
           <Input
             placeholder="Name"
             value={name}
@@ -177,11 +178,21 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 10,
   },
+  inputCard: {
+    marginBottom: 0,
+    paddingBottom: 0,
+  },
   inputContainer: {
     borderBottomWidth: 0,
+    paddingTop: 0,
+    marginBottom: 0,
+    paddingBottom: 0,
   },
   inputText: {
-    fontSize: 16,
+    fontSize: 20,
+    paddingTop: 0,
+    marginBottom: 0,
+    paddingBottom: 0,
   },
   sectionTitle: {
     fontSize: 18,
