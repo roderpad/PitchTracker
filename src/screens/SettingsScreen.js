@@ -6,7 +6,7 @@ import {useTheme} from '../context/ThemeContext';
 import Section from '../components/Section';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const SettingsScreen = () => {
+const SettingsScreen = ({navigation}) => {
   const {theme, isDarkMode, toggleTheme} = useTheme();
 
   const styles = getStyles(theme); // Call getStyles function with the current theme
@@ -39,9 +39,7 @@ const SettingsScreen = () => {
             title="Setup Pitcher Profile"
             buttonStyle={{backgroundColor: theme.primary, marginBottom: 20}}
             titleStyle={{color: theme.text}}
-            onPress={() => {
-              /* Logic for setup */
-            }}
+            onPress={() => navigation.navigate('User Profile')}
           />
         </Section>
         <Section title="Dev-Only">

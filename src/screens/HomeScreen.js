@@ -5,11 +5,21 @@ import {Button} from 'react-native-elements';
 import {useTheme} from '../context/ThemeContext';
 import Section from '../components/Section';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Import MaterialIcons
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({navigation}) => {
   const {theme} = useTheme();
 
   const styles = getStyles(theme); // Call getStyles function with the current theme
+
+  const checkProfileAndNavigate = async screenName => {
+    const userProfile = await AsyncStorage.getItem('userProfile');
+    if (userProfile) {
+      navigation.navigate(screenName);
+    } else {
+      navigation.navigate('User Profile');
+    }
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -29,17 +39,13 @@ const HomeScreen = ({navigation}) => {
             title="Start New Session"
             buttonStyle={{backgroundColor: theme.primary, marginBottom: 20}}
             titleStyle={{color: theme.text}}
-            onPress={() => {
-              /* Logic for new session */
-            }}
+            onPress={() => checkProfileAndNavigate('NewSession')}
           />
           <Button
             title="View Past Sessions"
             buttonStyle={{backgroundColor: theme.primary, marginBottom: 20}}
             titleStyle={{color: theme.text}}
-            onPress={() => {
-              /* Logic for past sessions */
-            }}
+            onPress={() => checkProfileAndNavigate('PastSessions')}
           />
         </Section>
       </View>
