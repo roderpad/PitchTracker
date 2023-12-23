@@ -9,5 +9,6 @@ export const darkTheme = {
   buttonBackground: '#bb86fc', // Button background color
   indicatorBackground: '#333333', // Indicator background color
   indicatorText: '#ffffff', // Indicator text color
+  screenBackground: '#242424', // Screen background color
   // Add other color and styling properties as needed
 };

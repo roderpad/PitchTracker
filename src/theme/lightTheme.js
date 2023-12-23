@@ -9,5 +9,6 @@ export const lightTheme = {
   buttonBackground: '#4FC3F7', // Button background color
   indicatorBackground: '#f5f5f5', // Indicator background color
   indicatorText: '#000000', // Indicator text color
+  screenBackground: '#f0f0f0', // Screen background color
   // Add other color and styling properties as needed
 };
