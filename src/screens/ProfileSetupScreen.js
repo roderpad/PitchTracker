@@ -85,11 +85,11 @@ const ProfileSetupScreen = () => {
   const getIndicatorColor = status => {
     const colorMap = {
       incomplete: 'lightcoral',
-      changed: 'khaki',
+      changed: '#DAA520',
       complete: 'lightgreen',
-      saved: 'none', // No color if saved
+      saved: theme.primary,
     };
-    return colorMap[status] || 'none';
+    return colorMap[status] || theme.primary;
   };
 
   const getIndicatorText = status => {
@@ -169,6 +169,7 @@ const ProfileSetupScreen = () => {
           onPress={saveProfile}
           disabled={!isProfileComplete()}
           buttonStyle={styles.saveButton}
+          titleStyle={styles.saveButtonText}
         />
       </ScrollView>
     </>
@@ -180,6 +181,7 @@ const getStyles = theme =>
     container: {
       flex: 1,
       paddingTop: 50, // Make room for the indicator
+      paddingBottom: 20, // Make room for the save button
       backgroundColor: theme.background,
     },
     card: {
@@ -221,6 +223,7 @@ const getStyles = theme =>
     },
     buttonGroupText: {
       fontSize: 16,
+      fontWeight: 'bold',
     },
     checkboxContainer: {
       width: '50%',
@@ -237,6 +240,10 @@ const getStyles = theme =>
       backgroundColor: theme.buttonBackground,
       borderRadius: 10,
       margin: 10,
+      marginBottom: 60, // Make sure there's space at the bottom
+    },
+    saveButtonText: {
+      fontWeight: 'bold', // This will make the button text bold
     },
     indicator: {
       position: 'absolute',
@@ -252,9 +259,11 @@ const getStyles = theme =>
     indicatorText: {
       fontSize: 16,
       color: theme.indicatorText,
+      fontWeight: 'bold',
     },
     flatList: {
       alignSelf: 'center',
+      scrollEnabled: true,
     },
     // ... add any additional styles you might need
   });
