@@ -4,12 +4,23 @@ import {View, Switch, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useTheme} from '../context/ThemeContext';
 import Section from '../components/Section';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SettingsScreen = ({navigation}) => {
   const {theme, isDarkMode, toggleTheme} = useTheme();
 
   const styles = getStyles(theme); // Call getStyles function with the current theme
+
+  const resetAppData = async () => {
+    try {
+      await AsyncStorage.clear(); // Clears all AsyncStorage data
+      // Optionally, add logic to reset any states or navigate to another screen
+    } catch (error) {
+      // Handle errors here if something goes wrong
+      console.error('Error clearing app data:', error);
+    }
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -47,9 +58,7 @@ const SettingsScreen = ({navigation}) => {
             title="Reset App Data"
             buttonStyle={{backgroundColor: theme.primary, marginBottom: 20}}
             titleStyle={{color: theme.text}}
-            onPress={() => {
-              /* Logic for reset */
-            }}
+            onPress={resetAppData}
           />
         </Section>
       </View>
