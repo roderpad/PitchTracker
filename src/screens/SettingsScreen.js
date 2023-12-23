@@ -2,6 +2,7 @@
 import React from 'react';
 import {View, Switch, StyleSheet} from 'react-native';
 import {Button} from 'react-native-elements';
+import {ScrollView} from 'react-native-gesture-handler';
 import {useTheme} from '../context/ThemeContext';
 import Section from '../components/Section';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,7 +45,7 @@ const SettingsScreen = ({navigation}) => {
           style={styles.iconStyle}
         />
       </View>
-      <View style={styles.contentContainer}>
+      <ScrollView style={styles.contentContainer}>
         <Section title="Account">
           <Button
             title="Setup Pitcher Profile"
@@ -61,7 +62,7 @@ const SettingsScreen = ({navigation}) => {
             onPress={resetAppData}
           />
         </Section>
-      </View>
+      </ScrollView>
     </View>
   );
 };

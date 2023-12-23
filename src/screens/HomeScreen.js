@@ -1,16 +1,37 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
 import {Button} from 'react-native-elements';
 import {useTheme} from '../context/ThemeContext';
 import Section from '../components/Section';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Import MaterialIcons
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const HomeScreen = ({navigation}) => {
   const {theme} = useTheme();
 
-  const styles = getStyles(theme); // Call getStyles function with the current theme
+  const [logoHeight, setLogoHeight] = useState(
+    Dimensions.get('window').height * 0.3,
+  );
+
+  const styles = getStyles(theme, logoHeight);
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setLogoHeight(Dimensions.get('window').height * 0.3);
+    };
+
+    Dimensions.addEventListener('change', updateLayout);
+
+    return () => Dimensions.removeEventListener('change', updateLayout);
+  }, []);
 
   const checkProfileAndNavigate = async screenName => {
     const userProfile = await AsyncStorage.getItem('userProfile');
@@ -33,7 +54,8 @@ const HomeScreen = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.contentContainer}>
+      <ScrollView style={styles.contentContainer}>
+        <Image source={require('../assets/PTlogo.png')} style={styles.logo} />
         <Section title="Pitch Tracker">
           <Button
             title="Start New Session"
@@ -48,13 +70,13 @@ const HomeScreen = ({navigation}) => {
             onPress={() => checkProfileAndNavigate('PastSessions')}
           />
         </Section>
-      </View>
+      </ScrollView>
     </View>
   );
 };
 
 // Function to create styles dynamically based on the theme
-const getStyles = theme =>
+const getStyles = (theme, logoHeight) =>
   StyleSheet.create({
     mainContainer: {
       flex: 1,
@@ -77,6 +99,12 @@ const getStyles = theme =>
     contentContainer: {
       paddingTop: 40,
       width: '100%',
+    },
+    logo: {
+      width: '100%', // Set the width of your logo
+      height: logoHeight, // Set the height of your logo
+      resizeMode: 'contain', // Keeps the aspect ratio intact
+      alignSelf: 'center',
     },
   });
 
