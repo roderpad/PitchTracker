@@ -8,6 +8,7 @@ import {
   Button,
 } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTheme} from '../context/ThemeContext';
 
 const ProfileSetupScreen = () => {
   const [name, setName] = useState('');
@@ -20,11 +21,14 @@ const ProfileSetupScreen = () => {
     CB: false,
     Slurve: false,
     Slider: false,
-    'Circle Change': false,
+    Change: false,
     Splitter: false,
     Knuckle: false,
   });
   const [savedProfile, setSavedProfile] = useState(null);
+
+  const {theme} = useTheme();
+  const styles = getStyles(theme);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -135,6 +139,7 @@ const ProfileSetupScreen = () => {
             onChangeText={setName}
             inputContainerStyle={styles.inputContainer}
             inputStyle={styles.inputText}
+            placeholderTextColor={theme.placeholderText}
           />
         </Card>
         <Card containerStyle={styles.card}>
@@ -170,77 +175,88 @@ const ProfileSetupScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 50, // Make room for the indicator
-  },
-  card: {
-    marginBottom: 10,
-  },
-  inputCard: {
-    marginBottom: 0,
-    paddingBottom: 0,
-  },
-  inputContainer: {
-    borderBottomWidth: 0,
-    paddingTop: 0,
-    marginBottom: 0,
-    paddingBottom: 0,
-  },
-  inputText: {
-    fontSize: 20,
-    paddingTop: 0,
-    marginBottom: 0,
-    paddingBottom: 0,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  buttonGroupContainer: {
-    borderRadius: 10,
-    borderWidth: 0,
-    marginBottom: 10,
-  },
-  selectedButton: {
-    backgroundColor: '#bfe3f5',
-  },
-  buttonGroupText: {
-    fontSize: 16,
-  },
-  checkboxContainer: {
-    width: '50%',
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-  },
-  checkboxText: {
-    fontSize: 16,
-  },
-  saveButton: {
-    backgroundColor: '#005f73',
-    borderRadius: 10,
-    margin: 10,
-  },
-  indicator: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
-  },
-  indicatorText: {
-    fontSize: 16,
-    color: 'black',
-  },
-  flatList: {
-    alignSelf: 'center',
-  },
-  // ... add any additional styles you might need
-});
+const getStyles = theme =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      paddingTop: 50, // Make room for the indicator
+      backgroundColor: theme.background,
+    },
+    card: {
+      marginBottom: 10,
+      backgroundColor: theme.cardBackground,
+    },
+    inputCard: {
+      marginBottom: 0,
+      paddingBottom: 0,
+      backgroundColor: theme.cardBackground,
+    },
+    inputContainer: {
+      borderBottomWidth: 0,
+      paddingTop: 0,
+      marginBottom: 0,
+      paddingBottom: 0,
+      backgroundColor: theme.cardBackground,
+    },
+    inputText: {
+      fontSize: 20,
+      paddingTop: 0,
+      marginBottom: 0,
+      paddingBottom: 0,
+      color: theme.text,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      color: theme.text,
+    },
+    buttonGroupContainer: {
+      borderRadius: 10,
+      borderWidth: 0,
+      marginBottom: 10,
+    },
+    selectedButton: {
+      backgroundColor: theme.primary,
+    },
+    buttonGroupText: {
+      fontSize: 16,
+    },
+    checkboxContainer: {
+      width: '50%',
+      backgroundColor: 'transparent',
+      borderWidth: 0,
+      marginRight: 0,
+      paddingRight: 0,
+    },
+    checkboxText: {
+      fontSize: 16,
+      color: theme.text,
+    },
+    saveButton: {
+      backgroundColor: theme.buttonBackground,
+      borderRadius: 10,
+      margin: 10,
+    },
+    indicator: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      padding: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1,
+      backgroundColor: theme.indicatorBackground,
+    },
+    indicatorText: {
+      fontSize: 16,
+      color: theme.indicatorText,
+    },
+    flatList: {
+      alignSelf: 'center',
+    },
+    // ... add any additional styles you might need
+  });
 
 export default ProfileSetupScreen;
